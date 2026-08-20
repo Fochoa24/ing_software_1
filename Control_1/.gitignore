@@ -1,0 +1,16 @@
+# Archivos temporales de LaTeX
+*.aux
+*.log
+*.out
+*.pdf
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+
+# Archivos generados por compilación
+*.gz
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
