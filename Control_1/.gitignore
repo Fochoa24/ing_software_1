@@ -2,11 +2,13 @@
 *.aux
 *.log
 *.out
-*.pdf
 *.fdb_latexmk
 *.fls
 *.synctex.gz
 *.toc
+
+# Mantener el PDF final del control versionado
+!control_1.pdf
 
 # Archivos generados por compilación
 *.gz

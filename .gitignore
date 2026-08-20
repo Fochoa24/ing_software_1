@@ -2,11 +2,13 @@
 Control_1/*.aux
 Control_1/*.log
 Control_1/*.out
-Control_1/*.pdf
 Control_1/*.fdb_latexmk
 Control_1/*.fls
 Control_1/*.synctex.gz
 Control_1/*.toc
+
+# Mantener el PDF del entregable final versionado
+!Control_1/*.pdf
 
 # Archivos del sistema
 .DS_Store
