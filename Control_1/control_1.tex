@@ -13,7 +13,10 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{fontawesome5}
+\usepackage{float}
+\usepackage[section]{placeins}
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue}
+\graphicspath{{./Control_1/}}
 
 % ---------- Formato de títulos ----------
 \titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
@@ -94,6 +97,22 @@ A partir del contexto anterior, se identifican los siguientes problemas recurren
     \item \textbf{Sobrecarga desigual}: sin una vista centralizada, es común que algunos trabajadores terminen con muchas más horas que otros.
 \end{itemize}
 
+% ================= OBJETIVOS =================
+\section{Objetivos del Proyecto}
+
+\subsection{Objetivo General}
+Desarrollar una propuesta de sistema de software orientado a automatizar la gestión de horarios y turnos de trabajo, con el fin de reducir los errores humanos, mejorar la eficiencia operativa y garantizar una asignación más justa, transparente y conforme a las normas laborales vigentes.
+
+\subsection{Objetivos Específicos}
+\begin{itemize}[leftmargin=1.2cm]
+    \item Analizar la problemática actual de la planificación manual de turnos y detectar sus principales causas, costos y riesgos operativos.
+    \item Definir los requisitos funcionales y no funcionales del sistema, considerando la gestión de usuarios, trabajadores, turnos, cambios y validaciones legales.
+    \item Diseñar un modelo de funcionamiento que permita generar horarios automáticamente, respetando cobertura mínima, descansos obligatorios, horas máximas y disponibilidad del personal.
+    \item Proponer una estructura para la gestión de solicitudes de cambio o canje de turno, con flujo de aprobación y trazabilidad de decisiones.
+    \item Incorporar mecanismos de notificación y reportería que permitan informar oportunamente a los trabajadores y a la administración sobre cambios, ausencias y cumplimiento de jornada.
+    \item Evaluar la viabilidad del proyecto desde una perspectiva de ingeniería de software, apoyada en la EDT y el diagrama de Ishikawa, para sustentar su planificación y ejecución futura.
+\end{itemize}
+
 % ================= SOLUCIÓN =================
 \section{Posible Solución}
 
@@ -123,7 +142,7 @@ El sistema se organiza en cinco módulos principales:
 \section{Estructura de Desglose del Trabajo (EDT)}
 
 La Figura~\ref{fig:edt} presenta la EDT del proyecto, organizada en cinco fases principales, alineadas con las unidades del curso. Cada fase ha sido desglosada en sus entregables clave para asegurar el cumplimiento de los objetivos.
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{Estructura de desglose de trabajo.jpg}
 \caption{Estructura de Desglose del Trabajo (EDT) del proyecto.}
@@ -145,7 +164,7 @@ La Figura~\ref{fig:edt} presenta la EDT del proyecto, organizada en cinco fases 
 
 La Figura~\ref{fig:ishikawa} presenta el diagrama de Ishikawa que resume las causas raíz de los errores y demoras en la asignación manual de turnos. Se han identificado subcausas específicas para cada una de las cuatro dimensiones evaluadas.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{ishikawa.jpg}
 \caption{Diagrama de Ishikawa detallando causas y subcausas del problema.}
@@ -160,5 +179,12 @@ La Figura~\ref{fig:ishikawa} presenta el diagrama de Ishikawa que resume las cau
     \item \textbf{Herramientas}: dependencia de planillas de cálculo o papel, e historial de cambios perdidos por el uso de aplicaciones de mensajería no oficiales (WhatsApp).
     \item \textbf{Políticas}: normativa laboral compleja y cambiante, sumado a licencias médicas o ausencias de última hora que rompen con los lineamientos ya publicados.
 \end{itemize}
+
+\FloatBarrier
+\section{Conclusión}
+
+El problema de la asignación manual de turnos no solo afecta la productividad de la organización, sino que también genera riesgos de cumplimiento legal, sobrecarga laboral y conflictos de comunicación entre el personal. En este contexto, la automatización de la planificación se presenta como una solución estratégica y necesaria, ya que permite centralizar la información, aplicar reglas consistentes y reducir la dependencia de decisiones improvisadas.
+
+El proyecto planteado aporta una propuesta clara de software orientado a mejorar la experiencia tanto de quienes gestionan los horarios como de quienes los reciben. A través de la incorporación de validaciones, trazabilidad y reportes, es posible lograr una distribución más equitativa de turnos y disminuir los errores que surgen de la planificación manual. En consecuencia, el desarrollo de esta solución no solo responde a una necesidad operativa, sino que también fortalece la calidad del proceso, la transparencia de decisiones y el cumplimiento de las normativas laborales.
 
 \end{document}
