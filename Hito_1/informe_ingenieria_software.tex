@@ -1,0 +1,602 @@
+%=====================================================================
+%  Ingeniería del Software I (PTEC105) — Universidad Andrés Bello
+%  Proyecto: Automatización de Horarios y Turnos
+%  Documento consolidado (estructura base: "Metodología de desarrollo")
+%
+%  Compilar con:  pdflatex informe_ingenieria_software.tex   (x2, por el índice)
+%  Requiere el archivo logo-unab.png en la misma carpeta (opcional).
+%=====================================================================
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}                 % Times New Roman
+\usepackage[spanish,es-tabla,es-nodecimaldot,es-noquoting,es-noshorthands,es-nolists]{babel}
+
+\usepackage[letterpaper,top=2.5cm,bottom=2.5cm,left=3cm,right=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{xltabular}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage[hidelinks]{hyperref}
+
+
+%----------------------- Paleta institucional -----------------------
+\definecolor{unabrojo}{HTML}{9B1B30}
+\definecolor{grisclaro}{HTML}{F2F2F2}
+\definecolor{verdecab}{HTML}{7CC576}
+\definecolor{verdesuave}{HTML}{DFF0DA}
+\definecolor{verderelleno}{HTML}{9BD69A}
+\definecolor{bordeverde}{HTML}{4C9A4C}
+
+%----------------------- Formato general ----------------------------
+\onehalfspacing
+\raggedbottom
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.25}
+
+\captionsetup{font=small,labelfont=bf,justification=centering}
+\captionsetup[table]{skip=4pt}
+
+\titleformat{\section}{\normalfont\Large\bfseries\color{unabrojo}}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection.}{0.6em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\itshape}{\thesubsubsection.}{0.6em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\footnotesize Ingeniería del Software I (PTEC105)}
+\fancyhead[R]{\footnotesize Automatización de Horarios y Turnos}
+\fancyfoot[C]{\thepage}
+
+% Columnas auxiliares
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+
+% Encabezado de tabla
+\newcommand{\hd}[1]{\textbf{#1}}
+\newcommand{\filaenc}{\rowcolor{verdesuave}}
+
+%----------------------- Datos editables ----------------------------
+\newcommand{\tituloProyecto}{Automatización de Horarios y Turnos}
+\newcommand{\numeroGrupo}{Grupo X}
+\newcommand{\docente}{Álvaro Sánchez Colmenares}
+\newcommand{\fechaEntrega}{07 de septiembre de 2026}
+
+\begin{document}
+
+%=====================================================================
+% PORTADA
+%=====================================================================
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+\singlespacing
+\setlength{\parskip}{0pt}
+
+\IfFileExists{logo-unab.png}{\includegraphics[width=3.6cm]{logo-unab.png}\\[0.6cm]}{\vspace*{1.2cm}}
+
+{\large Universidad Andrés Bello}\\[0.15cm]
+{\large Facultad de Ingeniería}\\[0.15cm]
+{\large Escuela de Computación e Informática}\\[1.1cm]
+
+{\large\bfseries Ingeniería del Software I (PTEC105)}\\[1.0cm]
+
+\rule{\textwidth}{0.8pt}\\[0.45cm]
+{\huge\bfseries \tituloProyecto}\\[0.45cm]
+\rule{\textwidth}{0.8pt}\\[1.2cm]
+
+\textbf{Integrantes}\\[0.4cm]
+\begin{tabular}{ll}
+Benjamín Candia & \small b.candiagarrido@uandresbello.edu \\
+Ignacio Figueroa & \small i.figueroacontreras@uandresbello.edu \\
+Endert Guerrero & \small e.guerrerocamacho@uandresbello.edu \\
+Felipe Ochoa & \small f.ochoajohn@uandresbello.edu \\
+Jorge Pinto & \small j.pintogomez@uandresbello.edu \\
+Antonia Valdebenito & \small a.valdebenitofuentes@uandresbello.edu \\
+\end{tabular}
+
+\vfill
+
+\begin{tabular}{rl}
+\textbf{Número de grupo:} & \numeroGrupo \\
+\textbf{Docente:} & \docente \\
+\textbf{Fecha:} & \fechaEntrega \\
+\end{tabular}
+
+\vspace{0.5cm}
+\end{titlepage}
+
+%=====================================================================
+% ÍNDICE
+%=====================================================================
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+%=====================================================================
+\section{Introducción y contexto del proyecto}
+%=====================================================================
+
+El presente documento reúne la definición, planificación y especificación del proyecto \textbf{\tituloProyecto}, desarrollado en el marco de la asignatura Ingeniería del Software I (PTEC105). El proyecto busca automatizar la gestión de horarios y turnos de trabajo para organizaciones que operan con personal rotativo, como retail, clínicas, call centers y restaurantes. La idea principal es reemplazar la planificación manual por un sistema que permita asignar turnos de manera más eficiente, segura y trazable, reduciendo errores humanos, optimizando el tiempo del personal encargado y facilitando el cumplimiento de las normas laborales y de cobertura.
+
+Muchas empresas todavía organizan sus horarios de forma manual, utilizando hojas de cálculo o incluso papel. En estos procesos, un encargado debe revisar la disponibilidad de cada trabajador, considerar las horas máximas y mínimas, respetar los días de descanso obligatorios y asegurar la cobertura necesaria por turno. Este proceso se repite cada semana y se vuelve más complejo a medida que crece el número de empleados: con equipos más grandes, la asignación manual genera más errores y consume más tiempo.
+
+El documento se organiza siguiendo el ciclo de vida del proyecto. Primero se plantea el problema y se analizan sus causas; luego se definen los objetivos, la metodología de desarrollo escogida y la planificación temporal (carta Gantt y EDT). Finalmente se presenta la Especificación de Requerimientos del Sistema (ERS) y la matriz de responsabilidades del equipo (RACI).
+
+%=====================================================================
+\section{Planteamiento del problema}
+%=====================================================================
+
+La organización manual de turnos presenta varios problemas recurrentes que afectan tanto a la operación de la empresa como a la experiencia de los trabajadores:
+
+\begin{itemize}[leftmargin=1.4em,itemsep=0.2em]
+  \item \textbf{Errores humanos frecuentes:} se puede asignar a dos personas al mismo horario crítico o dejar vacantes sin cobertura.
+  \item \textbf{Tiempo perdido:} construir el horario semanal puede tomar varias horas y cualquier cambio inesperado obliga a rehacerlo.
+  \item \textbf{Falta de trazabilidad:} los cambios y canjes de turno se coordinan por mensaje o verbalmente y no quedan registrados.
+  \item \textbf{Comunicación tardía:} los horarios suelen publicarse con poca anticipación, lo que genera reclamos y ausentismo.
+  \item \textbf{Sobrecarga desigual:} algunos trabajadores reciben más horas o turnos más difíciles que otros, sin una distribución equilibrada.
+\end{itemize}
+
+En conjunto, estos problemas se traducen en un efecto medible: \textit{errores y retrasos en la asignación de turnos}, con impacto directo en la continuidad operacional, en el cumplimiento normativo y en el clima laboral.
+
+\subsection{Análisis de causas: diagrama de Ishikawa}
+
+Para identificar el origen de estos errores y retrasos se elaboró un diagrama de causa--efecto, agrupando las causas en cuatro categorías: personas, proceso, herramientas y políticas.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  bone/.style={line width=1pt, bordeverde},
+  cat/.style={draw=bordeverde, fill=verdecab, line width=0.8pt, rounded corners=2pt,
+              inner sep=4pt, font=\bfseries\small},
+  efecto/.style={draw=unabrojo, fill=grisclaro, line width=1pt, rounded corners=3pt,
+                 text width=2.9cm, align=center, font=\bfseries\small, inner sep=6pt},
+  causa/.style={font=\scriptsize, align=right, text width=3.0cm, anchor=east},
+  tick/.style={line width=0.6pt, bordeverde}
+]
+
+% Espina central
+\draw[bone,-{Latex[length=3mm]}] (0,0) -- (13.1,0);
+\node[efecto,anchor=west] at (13.4,0) {Errores y retrasos en la asignación manual de turnos};
+
+% ---------- PERSONAS (superior izquierda) ----------
+\node[cat] at (3.4,3.55) {PERSONAS};
+\draw[bone] (3.2,3.15) -- (5.4,0);
+\foreach \y/\txt in {2.5/{Alta rotación del personal},
+                     1.5/{Cambios frecuentes en la disponibilidad},
+                     0.5/{Falta de capacitación del encargado}}{
+  \pgfmathsetmacro{\xb}{3.2 + (3.15-\y)/3.15*2.2}
+  \draw[tick] (\xb,\y) -- (\xb-0.35,\y);
+  \node[causa] at (\xb-0.45,\y) {\txt};
+}
+
+% ---------- PROCESO (superior derecha) ----------
+\node[cat] at (8.6,3.55) {PROCESO};
+\draw[bone] (8.4,3.15) -- (10.6,0);
+\foreach \y/\txt in {2.3/{Ausencia de reglas claras y estandarizadas},
+                     1.0/{Falta de un flujo formal para aprobar cambios}}{
+  \pgfmathsetmacro{\xb}{8.4 + (3.15-\y)/3.15*2.2}
+  \draw[tick] (\xb,\y) -- (\xb-0.35,\y);
+  \node[causa] at (\xb-0.45,\y) {\txt};
+}
+
+% ---------- HERRAMIENTAS (inferior izquierda) ----------
+\node[cat] at (3.4,-3.55) {HERRAMIENTAS};
+\draw[bone] (3.2,-3.15) -- (5.4,0);
+\foreach \y/\txt in {-2.3/{Dependencia de hojas de cálculo o papel},
+                     -1.0/{Pérdida de información por mensajería informal}}{
+  \pgfmathsetmacro{\xb}{3.2 + (3.15+\y)/3.15*2.2}
+  \draw[tick] (\xb,\y) -- (\xb-0.35,\y);
+  \node[causa] at (\xb-0.45,\y) {\txt};
+}
+
+% ---------- POLÍTICAS (inferior derecha) ----------
+\node[cat] at (8.6,-3.55) {POLÍTICAS};
+\draw[bone] (8.4,-3.15) -- (10.6,0);
+\foreach \y/\txt in {-2.3/{Normativa laboral compleja y cambiante},
+                     -1.0/{Licencias médicas y ausencias de última hora}}{
+  \pgfmathsetmacro{\xb}{8.4 + (3.15+\y)/3.15*2.2}
+  \draw[tick] (\xb,\y) -- (\xb-0.35,\y);
+  \node[causa] at (\xb-0.45,\y) {\txt};
+}
+
+\end{tikzpicture}}
+\caption{Diagrama de Ishikawa: causas de los errores y retrasos en la asignación manual de turnos.}
+\label{fig:ishikawa}
+\end{figure}
+
+%=====================================================================
+\section{Descripción de objetivos}
+%=====================================================================
+
+\subsection{Objetivo general}
+
+Desarrollar una solución tecnológica que permita asignar turnos de forma automática, ordenada y conforme a las reglas laborales vigentes, reduciendo el esfuerzo manual del encargado y mejorando la experiencia tanto para la empresa como para los trabajadores.
+
+\subsection{Objetivos específicos}
+
+\begin{enumerate}[label=\textbf{OE-\arabic*.},leftmargin=2.6em,itemsep=0.25em]
+  \item Implementar un módulo de gestión de usuarios con autenticación y control de acceso diferenciado según los roles de Administrador, Jefe de Turno y Trabajador.
+  \item Diseñar un registro centralizado de la ficha del trabajador que consolide sus datos laborales, su disponibilidad horaria y sus restricciones contractuales y legales.
+  \item Construir un motor de asignación que genere automáticamente una propuesta de horario semanal o mensual, respetando la cobertura mínima y las reglas de negocio definidas.
+  \item Incorporar un mecanismo de validación normativa que verifique descansos mínimos y topes de jornada, y que emita alertas ante incumplimientos.
+  \item Habilitar un flujo formal de solicitud, aprobación y notificación de canjes y modificaciones de turno, con registro histórico de cada cambio.
+  \item Desarrollar un módulo de reportería que entregue indicadores de horas trabajadas, ausentismo, cumplimiento normativo y distribución de carga laboral.
+  \item Validar el sistema mediante pruebas unitarias, de integración y de usuario, acompañadas de la documentación y capacitación necesarias para su puesta en marcha.
+\end{enumerate}
+
+%=====================================================================
+\section{Metodología de desarrollo}
+%=====================================================================
+
+Para este proyecto se utiliza la metodología cascada (\textit{waterfall}), adaptada en cinco fases que van una después de la otra: Gestión, Requisitos, Diseño, Desarrollo y Despliegue. Esto cuadra correctamente con cómo está organizado el curso, ya que cada fase termina en algo concreto (un acta, una especificación, un modelo, un módulo, pruebas) que posteriormente sirve de base para la fase que sigue, tal como se ve en la EDT que se presenta más adelante.
+
+Se eligió este enfoque secuencial y no uno iterativo por tres razones principales. Primero, porque el alcance del sistema ya está bastante definido desde el principio: son cinco módulos (usuarios, trabajadores, horarios, cumplimiento normativo y reportería) y no se espera que eso cambie mucho. Segundo, porque el semestre tiene fechas de entrega fijas para cada evaluación (Control 1, Solemne 1, Solemne 2, etc.), por lo que conviene más planificar por fases con hitos bien claros que se puedan ir revisando. Y tercero, porque el riesgo de que los requisitos cambien mucho durante el semestre es bajo, ya que el problema y la solución se validaron en entregas anteriores. En resumen, con estas condiciones un modelo por fases es más fácil de planificar, ejecutar y evaluar que uno iterativo.
+
+\subsection{Comparación con otras metodologías}
+
+Para justificar por qué se eligió cascada, se comparó con otras dos metodologías que se usan mucho en la industria del software: Scrum y Kanban.
+
+{\footnotesize
+\begin{xltabular}{\textwidth}{L{2.6cm}YYY}
+\caption{Comparación entre las metodologías Cascada, Scrum y Kanban.}\label{tab:comparacion}\\
+\toprule
+\filaenc \hd{Dimensión} & \hd{Cascada (Waterfall)} & \hd{Scrum} & \hd{Kanban} \\
+\midrule
+\endfirsthead
+\multicolumn{4}{l}{\footnotesize\itshape Continuación de la tabla anterior.}\\\\
+\toprule
+\filaenc \hd{Dimensión} & \hd{Cascada (Waterfall)} & \hd{Scrum} & \hd{Kanban} \\
+\midrule
+\endhead
+\midrule\multicolumn{4}{r}{\footnotesize\itshape Continúa en la página siguiente}\\\\
+\endfoot
+\bottomrule
+\endlastfoot
+
+Enfoque general & Secuencial, por fases & Iterativo, por sprints & Flujo continuo \\
+Gestión de requisitos & Se definen todos al principio y no cambian & Se priorizan y revisan en cada sprint (\textit{backlog}) & Se van agregando de forma continua al flujo \\
+Entrega de valor & Se entrega algo al terminar cada fase & Avances funcionales cada 2 a 4 semanas & Entrega continua, sin ciclos fijos \\
+Flexibilidad ante cambios & Baja: cambiar algo sale caro si ya se avanzó en una fase & Alta: se ajusta sprint a sprint & Alta: se ajusta tarea a tarea \\
+Documentación & Bastante y formal en cada fase & Poca, se prioriza que el software funcione & Casi no hay, se centra en el tablero de flujo \\
+Rol del cliente / usuario & Participa en momentos puntuales, sobre todo al inicio y al final & Participa siempre, en cada sprint (\textit{Product Owner}) & Participa siempre, priorizando según demanda \\
+Cuándo conviene usarla & Cuando el alcance y los plazos son fijos y hay poco riesgo de cambios & Cuando los requisitos cambian seguido y el cliente está disponible siempre & Para equipos de soporte o mantención con tareas constantes \\
+\end{xltabular}}
+
+Tanto Scrum como Kanban son más flexibles ante los cambios, pero necesitan condiciones que este proyecto no tiene. Scrum requiere que haya un \textit{Product Owner} o un cliente real disponible todo el tiempo para ir priorizando el \textit{backlog} en cada sprint, y en este proyecto académico ese rol no existe. Kanban, por su parte, está pensado para trabajos continuos que no tienen una fecha de término clara, como el soporte o la mantención de un sistema, y este proyecto sí tiene un alcance y una fecha de cierre definidos (fin del semestre).
+
+Por eso la metodología cascada resulta más adecuada: permite organizar el trabajo en fases bien delimitadas, que además calzan con las unidades y entregas del curso, y en cada fase queda algo concreto que se puede evaluar por separado. Esto se ajusta mejor tanto al alcance acotado del proyecto como a la forma en que se evalúa el ramo.
+
+\subsection{Carta Gantt preliminar}
+
+A continuación se presenta una carta Gantt preliminar del proyecto, donde se ubican las cinco fases de la EDT en el calendario real de evaluaciones del curso. Cada fase quedó alineada con la unidad que le corresponde: Gestión con la Unidad I, Requisitos con la Unidad II, Diseño con la Unidad III, y Desarrollo junto con Despliegue en la Unidad IV, terminando junto con la Solemne 3 y el cierre del semestre el 28 de noviembre. Como es preliminar, esta planificación se puede ir ajustando más adelante según cómo avance el equipo.
+
+\vspace{0.3em}
+{\small
+\begin{tabular}{@{}ll@{\hspace{2.2cm}}ll@{}}
+\textbf{Periodo:} & 15 semanas & \textbf{Fecha de inicio:} & 17/08/2026 \\
+\textbf{Unidad:} & 2 semanas & \textbf{Fecha de término:} & 28/11/2026 \\
+\end{tabular}}
+\vspace{0.6em}
+
+\newcommand{\gc}{\cellcolor{verderelleno}}
+
+\begin{table}[H]
+\centering
+\caption{Carta Gantt preliminar del proyecto, ubicada según los periodos de controles y solemnes del curso (se descuentan los días feriados del periodo correspondiente).}
+\label{tab:gantt}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{|>{\columncolor{verdecab}}C{1.9cm}|C{1.35cm}|C{1.35cm}|C{1.35cm}|C{1.35cm}|C{1.35cm}|C{1.35cm}|C{1.35cm}|C{1.35cm}|}
+\hline
+\rowcolor{verdecab}
+\multirow{2}{*}{\textbf{ACTIVIDAD}} & \multicolumn{8}{c|}{\cellcolor{verdesuave}\textbf{PERIODOS}} \\
+\cline{2-9}
+\rowcolor{verdecab}
+ & \makecell{17-30\\ago} & \makecell{31 ago\\13 sep} & \makecell{14-27\\sep} & \makecell{28 sep\\11 oct} & \makecell{12-25\\oct} & \makecell{26 oct\\8 nov} & \makecell{9-22\\nov} & \makecell{23-28\\nov} \\
+\hline
+\textbf{Gestión}    & \gc &     &     &     &     &     &     &     \\ \hline
+\textbf{Requisitos} & \gc & \gc & \gc &     &     &     &     &     \\ \hline
+\textbf{Diseño}     &     &     & \gc & \gc & \gc & \gc &     &     \\ \hline
+\textbf{Desarrollo} &     &     &     &     &     & \gc & \gc &     \\ \hline
+\textbf{Despliegue} &     &     &     &     &     &     & \gc & \gc \\ \hline
+\end{tabular}
+\end{table}
+
+%=====================================================================
+\clearpage
+\section{Estructura de Desglose del Trabajo (EDT)}
+%=====================================================================
+
+La EDT organiza el trabajo del proyecto en cinco fases, cada una con sus entregables concretos. Esta estructura es la misma que ordena la carta Gantt de la sección anterior y la matriz RACI de la Sección~\ref{sec:raci}.
+
+{\small
+\begin{xltabular}{\textwidth}{L{1.2cm}L{3.2cm}Y}
+\caption{Estructura de Desglose del Trabajo del proyecto.}\label{tab:edt}\\
+\toprule
+\filaenc \hd{Código} & \hd{Fase} & \hd{Entregables / paquetes de trabajo} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\footnotesize\itshape Continuación de la tabla anterior.}\\\\
+\toprule
+\filaenc \hd{Código} & \hd{Fase} & \hd{Entregables / paquetes de trabajo} \\
+\midrule
+\endhead
+\midrule\multicolumn{3}{r}{\footnotesize\itshape Continúa en la página siguiente}\\\\
+\endfoot
+\bottomrule
+\endlastfoot
+
+1 & Gestión & 1.1 Acta de constitución \newline 1.2 Cronograma del proyecto \newline 1.3 Definición de roles del equipo \newline 1.4 Informes de avance semanales \\
+2 & Requisitos & 2.1 Entrevistas con el cliente \newline 2.2 Requisitos funcionales y no funcionales \newline 2.3 Historias de usuario \newline 2.4 Matriz de trazabilidad de requisitos \\
+3 & Diseño & 3.1 Modelo de clases \newline 3.2 Diagrama de base de datos \newline 3.3 Prototipo de interfaz \newline 3.4 Selección de patrones de diseño \\
+4 & Desarrollo & 4.1 Módulo de gestión de usuarios \newline 4.2 Módulo de gestión de trabajadores \newline 4.3 Módulo de gestión de horarios (motor de asignación y canjes) \newline 4.4 Módulo de cumplimiento de la jornada laboral \newline 4.5 Módulo de reportería estadística \\
+5 & Despliegue & 5.1 Pruebas unitarias y de integración \newline 5.2 Pruebas de usuario \newline 5.3 Documentación \newline 5.4 Capacitación final \\
+\end{xltabular}}
+
+%=====================================================================
+\clearpage
+\section{Especificación de Requerimientos del Sistema (ERS)}
+%=====================================================================
+
+\subsection{Usuarios de negocio / usuarios prioritarios}
+
+El sistema considera tres actores principales. El \textbf{Jefe de Turno} se define como usuario prioritario, ya que concentra las operaciones críticas del sistema (generación, edición, publicación de horarios y aprobación de canjes).
+
+\begin{table}[H]
+\centering
+\caption{Actores del sistema y su nivel de prioridad.}
+\label{tab:actores}
+\small
+\begin{tabularx}{\textwidth}{L{3.1cm}YL{2.4cm}}
+\toprule
+\filaenc \hd{Actor} & \hd{Descripción} & \hd{Prioridad} \\
+\midrule
+Administrador & Acceso total al sistema. Gestiona cuentas, roles, parámetros de la organización y accede a la reportería completa. & Alta \\
+Jefe de Turno & Gestiona la operación diaria: genera y edita la malla de turnos, la publica y aprueba o rechaza los canjes solicitados. & Alta (prioritario) \\
+Trabajador & Consulta sus turnos publicados, registra su disponibilidad horaria y solicita canjes con sus pares. & Alta (mayor volumen de uso) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Requerimientos funcionales}
+
+{\footnotesize
+\begin{xltabular}{\textwidth}{L{1.1cm}L{2.5cm}YC{1.5cm}L{2.3cm}}
+\caption{Matriz de requerimientos funcionales.}\label{tab:rf}\\
+\toprule
+\filaenc \hd{ID} & \hd{Nombre} & \hd{Descripción} & \hd{Prioridad} & \hd{Actores} \\
+\midrule
+\endfirsthead
+\multicolumn{5}{l}{\footnotesize\itshape Continuación de la tabla anterior.}\\\\
+\toprule
+\filaenc \hd{ID} & \hd{Nombre} & \hd{Descripción} & \hd{Prioridad} & \hd{Actores} \\
+\midrule
+\endhead
+\midrule\multicolumn{5}{r}{\footnotesize\itshape Continúa en la página siguiente}\\\\
+\endfoot
+\bottomrule
+\endlastfoot
+
+RF-01 & Autenticación y accesos & El sistema debe autenticar a los usuarios mediante credenciales seguras y restringir las funcionalidades según el rol asignado. & Alta & Todos \\
+RF-02 & Gestión de usuarios y roles & El sistema debe permitir crear, editar y eliminar cuentas de usuario, asignando el rol de Administrador, Jefe de Turno o Trabajador. & Alta & Administrador \\
+RF-03 & Ficha del trabajador & El sistema debe permitir registrar y actualizar la ficha de cada trabajador con sus datos personales, rol, disponibilidad y condiciones de contrato. & Alta & Administrador, Jefe de Turno \\
+RF-04 & Restricciones legales & El sistema debe registrar las restricciones laborales y legales de cada trabajador, como el tope de horas semanales y los descansos obligatorios. & Alta & Administrador, Jefe de Turno \\
+RF-05 & Ingreso de disponibilidad & El sistema debe proveer una interfaz para que el personal registre y actualice su disponibilidad horaria. & Media & Trabajador \\
+RF-06 & Generación de turnos & El sistema debe generar automáticamente una propuesta de horario semanal o mensual respetando la cobertura mínima requerida. & Alta & Jefe de Turno \\
+RF-07 & Validación normativa & El sistema debe validar automáticamente el cumplimiento de los descansos mínimos y los límites de jornada según la legislación vigente. & Alta & Jefe de Turno, Sistema \\
+RF-08 & Alertas de incumplimiento & El sistema debe emitir alertas automáticas en tiempo real al detectar cualquier infracción normativa en la planificación. & Alta & Jefe de Turno, Administrador \\
+RF-09 & Edición y publicación de horarios & El sistema debe permitir al Jefe de Turno revisar, editar manualmente y publicar la propuesta de turnos generada. & Alta & Jefe de Turno \\
+RF-10 & Solicitud de canje & El sistema debe permitir a los trabajadores enviar solicitudes formales de cambio de turno con sus pares. & Media & Trabajador \\
+RF-11 & Aprobación de canje & El sistema debe entregar una interfaz para aceptar o rechazar las solicitudes de modificación de horario. & Media & Jefe de Turno \\
+RF-12 & Notificaciones & El sistema debe notificar automáticamente a los trabajadores, vía correo o sistema, ante la publicación o modificación de su turno. & Media & Todos \\
+RF-13 & Reportería estadística & El sistema debe generar reportes exportables de horas trabajadas, ausentismo, cumplimiento normativo y distribución de carga laboral. & Baja & Administrador, Jefe de Turno \\
+RF-14 & Trazabilidad de cambios & El sistema debe mantener un registro de auditoría detallado con todas las asignaciones, modificaciones y aprobaciones de turnos. & Media & Administrador \\
+\end{xltabular}}
+
+\subsubsection{Especificación de requisitos (casos de uso)}
+
+{\small
+\begin{xltabular}{\textwidth}{L{1.1cm}L{4.2cm}Y}
+\caption{Agrupación de los requerimientos funcionales en casos de uso.}\label{tab:casosuso}\\
+\toprule
+\filaenc \hd{ID} & \hd{Nombre} & \hd{Casos de uso (funcionalidad)} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\footnotesize\itshape Continuación de la tabla anterior.}\\\\
+\toprule
+\filaenc \hd{ID} & \hd{Nombre} & \hd{Casos de uso (funcionalidad)} \\
+\midrule
+\endhead
+\midrule\multicolumn{3}{r}{\footnotesize\itshape Continúa en la página siguiente}\\\\
+\endfoot
+\bottomrule
+\endlastfoot
+
+CU-1 & Administración de usuarios y roles & Registrar usuario \newline Asignar rol y permisos \\
+CU-2 & Gestión de ficha y restricciones & Cargar ficha de trabajador \newline Definir reglas de contrato \\
+CU-3 & Motor de asignación automática & Configurar parámetros de cobertura \newline Procesar malla de turnos \\
+CU-4 & Control y edición de la malla & Modificar asignación manualmente \newline Publicar horario \\
+CU-5 & Gestión de solicitudes y canjes & Solicitar permuta de turno \newline Aprobar o rechazar canje \\
+CU-6 & Monitoreo y auditoría normativa & Consultar alertas legales \newline Exportar reportes de gestión \\
+\end{xltabular}}
+
+\subsection{Requerimientos no funcionales}
+
+Los requerimientos no funcionales se clasifican en requisitos del producto, requisitos organizacionales y requisitos externos.
+
+{\footnotesize
+\begin{xltabular}{\textwidth}{L{1.4cm}L{2.9cm}YC{1.7cm}}
+\caption{Matriz de requerimientos no funcionales.}\label{tab:rnf}\\
+\toprule
+\filaenc \hd{ID} & \hd{Clasificación} & \hd{Descripción} & \hd{Prioridad} \\
+\midrule
+\endfirsthead
+\multicolumn{4}{l}{\footnotesize\itshape Continuación de la tabla anterior.}\\\\
+\toprule
+\filaenc \hd{ID} & \hd{Clasificación} & \hd{Descripción} & \hd{Prioridad} \\
+\midrule
+\endhead
+\midrule\multicolumn{4}{r}{\footnotesize\itshape Continúa en la página siguiente}\\\\
+\endfoot
+\bottomrule
+\endlastfoot
+
+RNF-01 & Producto -- Usabilidad & La interfaz debe ser intuitiva, permitiendo que un usuario nuevo se familiarice con la consulta de turnos en menos de 15 minutos. & Media \\
+RNF-02 & Producto -- Eficiencia & La generación automática de la propuesta de turnos para una plantilla de hasta 100 trabajadores no debe exceder los 10 segundos de respuesta. & Alta \\
+RNF-03 & Producto -- Dependibilidad & El sistema debe garantizar una disponibilidad operacional continua del 99,5\% durante el horario de operación de la empresa. & Alta \\
+RNF-04 & Producto -- Seguridad & El acceso requerirá autenticación mediante credenciales encriptadas (\textit{hashing} de contraseñas), cierre de sesión por inactividad a los 15 minutos y restricción por rol sobre contratos y datos personales. El registro de auditoría debe ser inalterable. & Alta \\
+RNF-05 & Producto -- Portabilidad & La interfaz debe contar con diseño responsivo, permitiendo la consulta de turnos desde dispositivos móviles. & Media \\
+RNF-06 & Organizacional -- Entorno & La plataforma debe desplegarse como aplicación web accesible desde navegadores estándar (Chrome, Edge, Firefox y Safari). & Alta \\
+RNF-07 & Organizacional -- Desarrollo & El código debe desarrollarse utilizando una arquitectura modular por capas que facilite la mantenibilidad y escalabilidad del software. & Alta \\
+RNF-08 & Externo -- Legislativo & Las validaciones automáticas de turnos deben alinearse estrictamente a las reglas de descansos y topes de la normativa laboral aplicable. & Alta \\
+RNF-09 & Externo -- Ético / Privacidad & El tratamiento y almacenamiento de los datos personales de los empleados debe realizarse protegiendo la confidencialidad de la información. & Alta \\
+\end{xltabular}}
+
+%=====================================================================
+\clearpage
+\section{Matriz RACI}
+\label{sec:raci}
+%=====================================================================
+
+\subsection{Roles del equipo}
+
+\begin{table}[H]
+\centering
+\caption{Distribución de roles del equipo de proyecto.}
+\label{tab:roles}
+\small
+\begin{tabular}{L{5.5cm}L{7.5cm}}
+\toprule
+\filaenc \hd{Integrante} & \hd{Rol en el proyecto} \\
+\midrule
+Felipe Ochoa & Jefe de Proyecto / Gestión \\
+Ignacio Figueroa & Analista de Requisitos \\
+Endert Guerrero & Arquitecto / Diseñador de Software \\
+Benjamín Candia & Desarrollador Backend \\
+Jorge Pinto & Desarrollador Frontend \\
+Antonia Valdebenito & QA / Tester y Documentación \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Matriz de responsabilidades por fase}
+
+{\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{|L{5.6cm}|C{1.15cm}|C{1.15cm}|C{1.15cm}|C{1.15cm}|C{1.15cm}|C{1.15cm}|}
+\caption{Matriz RACI por actividad y entregable.}\label{tab:raci}\\
+\hline
+\rowcolor{verdesuave}
+\hd{Actividad / Entregable} & \rotatebox[origin=c]{90}{\textbf{F. Ochoa}~} & \rotatebox[origin=c]{90}{\textbf{I. Figueroa}~} & \rotatebox[origin=c]{90}{\textbf{E. Guerrero}~} & \rotatebox[origin=c]{90}{\textbf{B. Candia}~} & \rotatebox[origin=c]{90}{\textbf{J. Pinto}~} & \rotatebox[origin=c]{90}{\textbf{A. Valdebenito}~} \\
+\hline
+\endfirsthead
+\multicolumn{7}{l}{\footnotesize\itshape Continuación de la matriz RACI.}\\
+\hline
+\rowcolor{verdesuave}
+\hd{Actividad / Entregable} & \rotatebox[origin=c]{90}{\textbf{F. Ochoa}~} & \rotatebox[origin=c]{90}{\textbf{I. Figueroa}~} & \rotatebox[origin=c]{90}{\textbf{E. Guerrero}~} & \rotatebox[origin=c]{90}{\textbf{B. Candia}~} & \rotatebox[origin=c]{90}{\textbf{J. Pinto}~} & \rotatebox[origin=c]{90}{\textbf{A. Valdebenito}~} \\
+\hline
+\endhead
+\multicolumn{7}{r}{\footnotesize\itshape Continúa en la página siguiente}\\
+\endfoot
+\endlastfoot
+\multicolumn{7}{|l|}{\cellcolor{grisclaro}\textbf{1. GESTIÓN}} \\ \hline
+Acta de constitución            & A/R & C & C & I & I & I \\ \hline
+Cronograma del proyecto         & A/R & C & I & I & I & I \\ \hline
+Roles del equipo                & A/R & I & I & I & I & I \\ \hline
+Informes de avance semanales    & A & R & C & I & I & I \\ \hline
+\multicolumn{7}{|l|}{\cellcolor{grisclaro}\textbf{2. REQUISITOS}} \\ \hline
+Entrevistas con el cliente      & A & R & C & I & I & I \\ \hline
+Requisitos funcionales y no funcionales & A & R & C & C & C & C \\ \hline
+Historias de usuario            & I & R & A & C & C & I \\ \hline
+Trazabilidad de requisitos      & I & R & A & I & I & C \\ \hline
+\multicolumn{7}{|l|}{\cellcolor{grisclaro}\textbf{3. DISEÑO}} \\ \hline
+Modelo de clases                & I & C & A/R & C & I & I \\ \hline
+Diagrama de base de datos       & I & C & A/R & C & I & I \\ \hline
+Prototipo de interfaz           & I & C & A & C & R & C \\ \hline
+Patrones de diseño              & I & I & A/R & C & C & I \\ \hline
+\multicolumn{7}{|l|}{\cellcolor{grisclaro}\textbf{4. DESARROLLO}} \\ \hline
+Módulo gestión de usuarios      & I & C & C & A/R & C & C \\ \hline
+Módulo gestión de trabajadores  & I & C & C & A/R & C & C \\ \hline
+Módulo gestión de horarios (motor de asignación y canjes) & A & C & C & R & C & C \\ \hline
+Módulo cumplimiento jornada laboral & A & C & C & R & I & C \\ \hline
+Módulo reportería estadística   & I & C & C & C & R & C \\ \hline
+\multicolumn{7}{|l|}{\cellcolor{grisclaro}\textbf{5. DESPLIEGUE}} \\ \hline
+Pruebas unitarias e integración & I & I & C & C & C & A/R \\ \hline
+Pruebas de usuario              & A & C & I & C & C & R \\ \hline
+Documentación                   & I & C & C & I & I & A/R \\ \hline
+Capacitación                    & A & I & I & I & I & R \\ \hline
+\end{longtable}}
+
+\begin{table}[H]
+\centering
+\caption{Leyenda de la matriz RACI.}
+\label{tab:leyenda}
+\small
+\begin{tabular}{L{1.2cm}L{11.5cm}}
+\toprule
+\filaenc \hd{Sigla} & \hd{Significado} \\
+\midrule
+\textbf{R} & Responsable — ejecuta la tarea. \\
+\textbf{A} & Aprobador — rinde cuentas por el resultado. \\
+\textbf{C} & Consultado — aporta información antes de decidir. \\
+\textbf{I} & Informado — se le comunica el avance o resultado. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%=====================================================================
+\clearpage
+\section*{Referencias}
+\addcontentsline{toc}{section}{Referencias}
+%=====================================================================
+
+\begingroup
+\setlength{\parindent}{-1.27cm}
+\leftskip=1.27cm
+\setlength{\parskip}{0.8em}
+\sloppy
+
+Anderson, D. J. (2010). \textit{Kanban: Successful evolutionary change for your technology business}. Blue Hole Press.
+
+Biblioteca del Congreso Nacional de Chile. (2023). \textit{Ley N.\textsuperscript{o} 21.561: Modifica el Código del Trabajo para reducir la jornada laboral}. https://www.bcn.cl/leychile
+
+Biblioteca del Congreso Nacional de Chile. (1999). \textit{Ley N.\textsuperscript{o} 19.628 sobre protección de la vida privada}. https://www.bcn.cl/leychile
+
+Dirección del Trabajo. (s.f.). \textit{Código del Trabajo}. https://www.dt.gob.cl
+
+Pressman, R. S., \& Maxim, B. R. (2020). \textit{Ingeniería del software: Un enfoque práctico} (9.\textsuperscript{a} ed.). McGraw-Hill.
+
+Project Management Institute. (2021). \textit{A guide to the Project Management Body of Knowledge (PMBOK guide)} (7.\textsuperscript{a} ed.). Project Management Institute.
+
+Royce, W. W. (1970). Managing the development of large software systems. \textit{Proceedings of IEEE WESCON}, \textit{26}, 1--9.
+
+Schwaber, K., \& Sutherland, J. (2020). \textit{The Scrum Guide: The definitive guide to Scrum}. https://scrumguides.org
+
+Sommerville, I. (2011). \textit{Ingeniería de software} (9.\textsuperscript{a} ed.). Pearson Educación.
+
+\endgroup
+
+\end{document}
